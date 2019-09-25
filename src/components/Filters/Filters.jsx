@@ -12,7 +12,7 @@ export default class Filters extends React.Component {
 
     return (
       <form className="mb-3">
-        <SortBy sord_by={sort_by} onChangeFilters={onChangeFilters} />
+        <SortBy sort_by={sort_by} onChangeFilters={onChangeFilters} />
         <div className="btn-group" role="group" aria-label="Basic example">
           <button
             type="button"
