@@ -6,6 +6,7 @@ const years = Array.from (new Array (20), (val, index) => year - index);
 
 export default class SortByYear extends React.Component {
   static propTypes = {
+    primary_release_year: PropTypes.string.isRequired,
     onChangeFilters: PropTypes.func.isRequired,
   };
 
