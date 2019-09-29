@@ -3,7 +3,7 @@ import Filters from './Filters/Filters';
 import MoviesList from './Movies/MoviesList';
 
 export default class App extends React.Component {
-  constructor () {
+  constructor() {
     super ();
 
     this.state = {
@@ -34,10 +34,13 @@ export default class App extends React.Component {
   resetFilters = () => {
     this.setState (prevProps => ({
       filters: {
-        ...prevProps.filters,
         sort_by: 'popularity.desc',
         primary_release_year: '',
         with_genres: [],
+      },
+      pagination: {
+        page: 1,
+        total_pages: 0,
       },
     }));
   };
@@ -51,7 +54,7 @@ export default class App extends React.Component {
     }));
   };
 
-  render () {
+  render() {
     const {filters, pagination} = this.state;
     return (
       <div className="container">

@@ -8,7 +8,7 @@ export default class Genres extends React.Component {
     onChangeFilters: PropTypes.func.isRequired,
   };
 
-  constructor () {
+  constructor() {
     super ();
 
     this.state = {
@@ -45,11 +45,11 @@ export default class Genres extends React.Component {
       });
   };
 
-  componentDidMount () {
+  componentDidMount() {
     this.getGenres ();
   }
 
-  render () {
+  render() {
     const {genres} = this.state;
     return (
       <div>

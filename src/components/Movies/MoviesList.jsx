@@ -4,7 +4,7 @@ import {API_URL, API_KEY_3} from '../../api/api';
 import _ from 'lodash';
 
 export default class MovieList extends Component {
-  constructor () {
+  constructor() {
     super ();
 
     this.state = {
@@ -32,11 +32,11 @@ export default class MovieList extends Component {
       });
   };
 
-  componentDidMount () {
+  componentDidMount() {
     this.getMovies (this.props.filters, this.props.pagination);
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (!_.isEqual (this.props.filters, prevProps.filters)) {
       this.getMovies (this.props.filters, 1);
       this.props.onChangePagination (1);
@@ -47,8 +47,8 @@ export default class MovieList extends Component {
     }
   }
 
-  render () {
-    const movies = this.state.movies;
+  render() {
+    const {movies} = this.state;
     return (
       <div className="row">
         {movies.map (movie => {

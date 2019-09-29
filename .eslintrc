@@ -7,7 +7,8 @@
     "jsx-quotes": [
       1,
       "prefer-double"
-    ]
+    ],
+    "space-before-function-paren": ["error", "never"]
   },
   "plugins": [
     "prettier"

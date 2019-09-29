@@ -6,7 +6,7 @@ export default class ResetFilters extends React.Component {
     resetFilters: PropTypes.func.isRequired,
   };
 
-  render () {
+  render() {
     return (
       <div
         className="btn-group btn-block"
