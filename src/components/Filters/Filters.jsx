@@ -14,7 +14,7 @@ export default class Filters extends React.Component {
     resetFilters: PropTypes.func.isRequired,
   };
 
-  render () {
+  render() {
     const {
       filters: {sort_by, primary_release_year, with_genres},
       pagination: {page, total_pages},

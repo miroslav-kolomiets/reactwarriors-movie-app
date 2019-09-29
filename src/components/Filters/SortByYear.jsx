@@ -10,7 +10,7 @@ export default class SortByYear extends React.Component {
     onChangeFilters: PropTypes.func.isRequired,
   };
 
-  render () {
+  render() {
     const {primary_release_year, onChangeFilters} = this.props;
 
     return (

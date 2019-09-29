@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default class Pagination extends React.Component {
-  render () {
+  render() {
     const {page, total_pages, onChangePagination} = this.props;
 
     return (
