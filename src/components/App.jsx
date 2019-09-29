@@ -9,12 +9,6 @@ export default class App extends React.Component {
     this.state = {
       filters: {
         sort_by: 'popularity.desc',
-        // вопрос по поводу использования undefined внтури стейта компонета,
-        // изначально я использовал null но получил следующий ворнинг в консоль.
-        // Warning: `value` prop on `select` should not be null.
-        // Consider using an empty string to clear the component
-        // or `undefined` for uncontrolled components.
-        // Объясни пожалуйста детальней этот момент.
         primary_release_year: '',
         with_genres: [],
       },
@@ -47,8 +41,7 @@ export default class App extends React.Component {
       },
     }));
   };
-  // Вопрос: не могу понять почему запись (name, value) не работала,
-  // а после взятия в фигурные скобки заработала.
+
   onChangePagination = ({name, value}) => {
     this.setState (prevState => ({
       pagination: {

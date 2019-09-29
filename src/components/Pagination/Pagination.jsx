@@ -15,8 +15,6 @@ export default class Pagination extends React.Component {
             type="button"
             className="btn btn-light"
             disabled={page === 1}
-            // Вопрос о том как правильно биндить функции внутри рендера потому что я запутался в вариантах.
-            // В нете видел даже варианты с использованием (::) но у меня такой вариант не заработал. Линтер выдает ошибку.
             onClick={() =>
               onChangePagination ({
                 name: 'page',
