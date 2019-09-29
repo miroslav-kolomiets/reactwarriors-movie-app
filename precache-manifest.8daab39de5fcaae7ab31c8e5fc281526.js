@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "172b7cfe09d1c46e661e5867d4bb0620",
+    "revision": "24f40f11d3bc44d487b8814d397480a8",
     "url": "/reactwarriors-movie-app/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/reactwarriors-movie-app/static/css/2.266e55a5.chunk.css"
   },
   {
-    "revision": "3d76e563b331e93734ca",
+    "revision": "86476fdf142c15a589d9",
     "url": "/reactwarriors-movie-app/static/css/main.f8eda838.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/reactwarriors-movie-app/static/js/2.7e50e38c.chunk.js"
   },
   {
-    "revision": "3d76e563b331e93734ca",
-    "url": "/reactwarriors-movie-app/static/js/main.990c28b7.chunk.js"
+    "revision": "86476fdf142c15a589d9",
+    "url": "/reactwarriors-movie-app/static/js/main.670087d0.chunk.js"
   },
   {
     "revision": "ea6b2d9efeaf5d262dd1",
