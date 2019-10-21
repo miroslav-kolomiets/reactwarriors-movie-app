@@ -3,7 +3,7 @@ import {Modal, ModalBody} from 'reactstrap';
 import LoginForm from './LoginForm';
 
 export default class Login extends React.Component {
-  constructor () {
+  constructor() {
     super ();
     this.state = {
       showModal: false,
@@ -16,7 +16,7 @@ export default class Login extends React.Component {
     }));
   };
 
-  render () {
+  render() {
     return (
       <div>
         <button

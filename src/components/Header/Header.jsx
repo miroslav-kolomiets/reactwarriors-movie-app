@@ -3,7 +3,7 @@ import User from './User';
 import Login from './Login/Login';
 
 class Header extends React.Component {
-  render () {
+  render() {
     const {user, updateUser} = this.props;
     return (
       <nav className="navbar navbar-dark bg-primary">
