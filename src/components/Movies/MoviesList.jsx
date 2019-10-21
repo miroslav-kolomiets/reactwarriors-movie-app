@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
+import _ from 'lodash';
 import MovieItem from './MovieItem';
 import {API_URL, API_KEY_3} from '../../api/api';
-import _ from 'lodash';
 
 export default class MovieList extends Component {
   constructor() {
