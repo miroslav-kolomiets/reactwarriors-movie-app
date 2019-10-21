@@ -1,6 +1,5 @@
 import React from 'react';
-import {API_URL, API_KEY_3} from '../../../api/api';
-
+import {API_URL, API_KEY_3, fetchApi} from '../../../api/api';
 export default class LoginForm extends React.Component {
   state = {
     username: '',
@@ -16,6 +15,7 @@ export default class LoginForm extends React.Component {
       [name]: value,
       errors: {
         ...prevState.errors,
+        base: null,
         [name]: null,
       },
     }));
@@ -45,26 +45,6 @@ export default class LoginForm extends React.Component {
   };
 
   onSubmit = () => {
-    const fetchApi = (url, options = {}) => {
-      return new Promise ((resolve, reject) => {
-        fetch (url, options)
-          .then (response => {
-            if (response.status < 400) {
-              return response.json ();
-            } else {
-              throw response;
-            }
-          })
-          .then (data => {
-            resolve (data);
-          })
-          .catch (response => {
-            response.json ().then (error => {
-              reject (error);
-            });
-          });
-      });
-    };
     this.setState ({
       submitting: true,
     });
@@ -102,7 +82,14 @@ export default class LoginForm extends React.Component {
         );
       })
       .then (data => {
-        console.log ('session', data);
+        this.props.updateSessionId (data.session_id);
+        return fetchApi (
+          `${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`
+        );
+      })
+      .then (user => {
+        console.log ('session', user);
+        this.props.updateUser (user);
         this.setState ({
           submitting: false,
         });
