@@ -12,24 +12,19 @@ export default class LoginForm extends React.Component {
   onChange = e => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState (prevState => ({
+    this.setState ({
       [name]: value,
-      errors: {
-        ...prevState.errors,
-        base: null,
-        [name]: null,
-      },
-    }));
+    });
   };
 
-  handleBlur = () => {
-    console.log ('on blur');
+  handleBlur = e => {
     const errors = this.validateFields ();
-    if (Object.keys (errors).length > 0) {
-      this.setState (prevState => ({
+    const name = e.target.name;
+    if (errors[name]) {
+      this.setState (state => ({
         errors: {
-          ...prevState.errors,
-          ...errors,
+          ...state.errors,
+          [name]: errors[name]
         },
       }));
     }
@@ -145,7 +140,9 @@ export default class LoginForm extends React.Component {
             <label htmlFor="username">Пользователь</label>
             <input
               type="text"
-              className="form-control"
+              className={
+                errors.username ? "form-control is-invalid" : "form-control"
+              }
               id="username"
               placeholder="Пользователь"
               name="username"
@@ -160,7 +157,9 @@ export default class LoginForm extends React.Component {
             <label htmlFor="password">Пароль</label>
             <input
               type="password"
-              className="form-control"
+              className={
+                errors.password ? "form-control is-invalid" : "form-control"
+              }
               id="password"
               placeholder="Пароль"
               name="password"
@@ -175,7 +174,9 @@ export default class LoginForm extends React.Component {
             <label htmlFor="repeatPassword">Повторите пароль</label>
             <input
               type="password"
-              className="form-control"
+              className={
+                errors.repeatPassword ? "form-control is-invalid" : "form-control"
+              }
               id="repeatPassword"
               placeholder="Повторите пароль"
               name="repeatPassword"

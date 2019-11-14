@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
+import queryString from 'query-string';
 import MovieItem from './MovieItem';
+import { Spinner } from 'reactstrap';
 import {API_URL, API_KEY_3} from '../../api/api';
 
 export default class MovieList extends Component {
@@ -15,12 +17,19 @@ export default class MovieList extends Component {
   getMovies = (filters, pagination) => {
     const {sort_by, primary_release_year, with_genres} = filters;
     const {page} = pagination;
-    const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${sort_by}&page=${page}&primary_release_year=${primary_release_year}&with_genres=${with_genres}`;
+    const queryStringParams = {
+      "api_key": API_KEY_3,
+      "sort_by":sort_by,
+      "page": page,
+      "primary_release_year": primary_release_year,
+      "with_genres": with_genres,
+      "language": "ru-RU"
+    };
+    const paramsString = queryString.stringify(queryStringParams);
+    const link = `${API_URL}/discover/movie?${paramsString}`;
 
     fetch (link)
-      .then (response => {
-        return response.json ();
-      })
+      .then (response => response.json ())
       .then (data => {
         this.setState ({
           movies: data.results,
@@ -50,14 +59,19 @@ export default class MovieList extends Component {
   render() {
     const {movies} = this.state;
     return (
-      <div className="row">
-        {movies.map (movie => {
-          return (
-            <div key={movie.id} className="col-6 mb-4">
-              <MovieItem item={movie} />
-            </div>
-          );
-        })}
+      <div>
+        <div className="loader-wrapper">
+          {movies.length === 0 && <Spinner color="primary" />}
+        </div>
+        <div className="row">
+          {movies.map (movie => {
+            return (
+              <div key={movie.id} className="col-6 mb-4">
+                <MovieItem item={movie} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
