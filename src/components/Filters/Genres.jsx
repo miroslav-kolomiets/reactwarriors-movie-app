@@ -62,6 +62,7 @@ export default class Genres extends React.Component {
                 onChange={this.onChangeGenresFilters}
                 name="with_genres"
                 value={genre.id}
+                checked={this.props.with_genres.includes(genre.id.toString())}
                 id={genre.id}
               />
               <label className="form-check-label" htmlFor="defaultCheck1">
