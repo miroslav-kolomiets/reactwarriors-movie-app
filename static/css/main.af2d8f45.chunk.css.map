@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,KACE,kBACF,CAEA,kBACE,aACF","file":"main.af2d8f45.chunk.css","sourcesContent":["body {\n  background: #fdfdfd;\n}\n\n.invalid-feedback {\n  display: block;\n}\n"]}

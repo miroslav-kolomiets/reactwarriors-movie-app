@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/reactwarriors-movie-app/static/css/main.af2d8f45.chunk.css",
-    "main.js": "/reactwarriors-movie-app/static/js/main.51505c6c.chunk.js",
-    "main.js.map": "/reactwarriors-movie-app/static/js/main.51505c6c.chunk.js.map",
+    "main.css": "/reactwarriors-movie-app/static/css/main.7d545208.chunk.css",
+    "main.js": "/reactwarriors-movie-app/static/js/main.9b50b3ac.chunk.js",
+    "main.js.map": "/reactwarriors-movie-app/static/js/main.9b50b3ac.chunk.js.map",
     "runtime~main.js": "/reactwarriors-movie-app/static/js/runtime~main.bb82fc82.js",
     "runtime~main.js.map": "/reactwarriors-movie-app/static/js/runtime~main.bb82fc82.js.map",
-    "static/css/2.0624914a.chunk.css": "/reactwarriors-movie-app/static/css/2.0624914a.chunk.css",
-    "static/js/2.1773c215.chunk.js": "/reactwarriors-movie-app/static/js/2.1773c215.chunk.js",
-    "static/js/2.1773c215.chunk.js.map": "/reactwarriors-movie-app/static/js/2.1773c215.chunk.js.map",
+    "static/css/2.b0bb7f2c.chunk.css": "/reactwarriors-movie-app/static/css/2.b0bb7f2c.chunk.css",
+    "static/js/2.32bb281d.chunk.js": "/reactwarriors-movie-app/static/js/2.32bb281d.chunk.js",
+    "static/js/2.32bb281d.chunk.js.map": "/reactwarriors-movie-app/static/js/2.32bb281d.chunk.js.map",
     "index.html": "/reactwarriors-movie-app/index.html",
-    "precache-manifest.fb3f131c9567e9cefa9c2f10acbec17a.js": "/reactwarriors-movie-app/precache-manifest.fb3f131c9567e9cefa9c2f10acbec17a.js",
+    "precache-manifest.d8dcc1fa455a7accf2950b4e41ffafb5.js": "/reactwarriors-movie-app/precache-manifest.d8dcc1fa455a7accf2950b4e41ffafb5.js",
     "service-worker.js": "/reactwarriors-movie-app/service-worker.js",
-    "static/css/2.0624914a.chunk.css.map": "/reactwarriors-movie-app/static/css/2.0624914a.chunk.css.map",
-    "static/css/main.af2d8f45.chunk.css.map": "/reactwarriors-movie-app/static/css/main.af2d8f45.chunk.css.map"
+    "static/css/2.b0bb7f2c.chunk.css.map": "/reactwarriors-movie-app/static/css/2.b0bb7f2c.chunk.css.map",
+    "static/css/main.7d545208.chunk.css.map": "/reactwarriors-movie-app/static/css/main.7d545208.chunk.css.map"
   }
 }
