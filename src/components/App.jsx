@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header/Header';
 import Filters from './Filters/Filters';
-import MoviesList from './Movies/MoviesList';
+import MoviesContainer from './Movies/MoviesContainer';
 import Cookies from 'universal-cookie';
 import {API_URL, API_KEY_3, fetchApi} from '../api/api';
 
@@ -109,7 +109,7 @@ export default class App extends React.Component {
               </div>
             </div>
             <div className="col-8">
-              <MoviesList
+              <MoviesContainer
                 pagination={pagination}
                 movies={this.state.movies}
                 getMovies={this.getMovies}
