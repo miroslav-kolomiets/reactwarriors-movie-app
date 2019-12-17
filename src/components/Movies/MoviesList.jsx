@@ -2,6 +2,7 @@ import React from 'react';
 import MovieItem from './MovieItem';
 import { Spinner } from 'reactstrap';
 import PropsTypes from 'prop-types';
+import MoviesHOC from './MoviesHOC';
 
 const MoviesList = ({ movies }) => {
   return (
@@ -30,4 +31,4 @@ MoviesList.propTypes = {
   movies: PropsTypes.array.isRequired
 };
 
-export default MoviesList;
+export default MoviesHOC(MoviesList);

@@ -1,12 +1,13 @@
 import React from 'react';
 import Header from './Header/Header';
 import Filters from './Filters/Filters';
-import MoviesContainer from './Movies/MoviesContainer';
+import MoviesList from './Movies/MoviesList';
 import Cookies from 'universal-cookie';
 import {API_URL, API_KEY_3, fetchApi} from '../api/api';
 
 const cookies = new Cookies ();
 
+export const AppContext = React.createContext();
 export default class App extends React.Component {
   constructor() {
     super ();
@@ -77,49 +78,57 @@ export default class App extends React.Component {
         `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session_id}`
       ).then (user => {
         this.updateUser (user);
+        this.updateSessionId(session_id);
       });
     }
   }
 
   render() {
-    const {filters, pagination, page, total_pages, user} = this.state;
+    const {filters, pagination, page, total_pages, user, session_id} = this.state;
     return (
-      <div>
-        <Header
-          updateUser={this.updateUser}
-          updateSessionId={this.updateSessionId}
-          user={user}
-        />
-        <div className="container">
-          <div className="row mt-4">
-            <div className="col-4">
-              <div className="card" style={{width: '100%'}}>
-                <div className="card-body">
-                  <h3>Фильтры:</h3>
-                  <Filters
-                    page={page}
-                    total_pages={total_pages}
-                    pagination={pagination}
-                    filters={filters}
-                    resetFilters={this.resetFilters}
-                    onChangePagination={this.onChangePagination}
-                    onChangeFilters={this.onChangeFilters}
-                  />
+      <AppContext.Provider value={{
+        user,
+        session_id,
+        updateUser: this.updateUser,
+        updateSessionId: this.updateSessionId
+      }}>
+        <div>
+          <Header
+            updateUser={this.updateUser}
+            updateSessionId={this.updateSessionId}
+            user={user}
+          />
+          <div className="container">
+            <div className="row mt-4">
+              <div className="col-4">
+                <div className="card" style={{width: '100%'}}>
+                  <div className="card-body">
+                    <h3>Фильтры:</h3>
+                    <Filters
+                      page={page}
+                      total_pages={total_pages}
+                      pagination={pagination}
+                      filters={filters}
+                      resetFilters={this.resetFilters}
+                      onChangePagination={this.onChangePagination}
+                      onChangeFilters={this.onChangeFilters}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-8">
-              <MoviesContainer
-                pagination={pagination}
-                movies={this.state.movies}
-                getMovies={this.getMovies}
-                filters={this.state.filters}
-                onChangePagination={this.onChangePagination}
-              />
+              <div className="col-8">
+                <MoviesList
+                  pagination={pagination}
+                  movies={this.state.movies}
+                  getMovies={this.getMovies}
+                  filters={this.state.filters}
+                  onChangePagination={this.onChangePagination}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </AppContext.Provider>
     );
   }
 }
