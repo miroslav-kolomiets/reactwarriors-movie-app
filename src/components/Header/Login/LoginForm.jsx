@@ -1,5 +1,5 @@
 import React from 'react';
-import {API_URL, API_KEY_3, fetchApi} from '../../../api/api';
+import CallApi, {API_URL, API_KEY_3, fetchApi} from '../../../api/api';
 import { AppContext } from '../../App';
 
 class LoginForm extends React.Component {
@@ -58,44 +58,59 @@ class LoginForm extends React.Component {
     this.setState ({
       submitting: true,
     });
-    fetchApi (`${API_URL}/authentication/token/new?api_key=${API_KEY_3}`)
+    CallApi.get('/authentication/token/new')
       .then (data => {
-        return fetchApi (
-          `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
-          {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            body: JSON.stringify ({
-              username: this.state.username,
-              password: this.state.password,
-              request_token: data.request_token,
-            }),
-          }
-        );
+        return CallApi.post('/authentication/token/validate_with_login', {
+          body: {
+            username: this.state.username,
+            password: this.state.password,
+            request_token: data.request_token,
+          },
+        })
+        // return fetchApi (
+        //   `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
+        //   {
+        //     method: 'POST',
+        //     mode: 'cors',
+        //     headers: {
+        //       'Content-type': 'application/json',
+        //     },
+        //     body: JSON.stringify ({
+        //       username: this.state.username,
+        //       password: this.state.password,
+        //       request_token: data.request_token,
+        //     }),
+        //   }
+        // );
       })
       .then (data => {
-        return fetchApi (
-          `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
-          {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            body: JSON.stringify ({
-              request_token: data.request_token,
-            }),
+        return CallApi.post('/authentication/session/new', {
+          body: {
+            request_token: data.request_token,
           }
-        );
+        })
+        // return fetchApi (
+        //   `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
+        //   {
+        //     method: 'POST',
+        //     mode: 'cors',
+        //     headers: {
+        //       'Content-type': 'application/json',
+        //     },
+        //     body: JSON.stringify ({
+        //       request_token: data.request_token,
+        //     }),
+        //   }
+        // );
       })
       .then (data => {
         this.props.updateSessionId (data.session_id);
-        return fetchApi (
-          `${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`
-        );
+        return CallApi.get('/account', {
+          session_id: data.session_id
+        })
+        // return fetchApi (
+        //   `${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`
+        // );
       })
       .then (user => {
         console.log ('session', user);
@@ -131,7 +146,7 @@ class LoginForm extends React.Component {
   };
 
   render() {
-    const {username, password, repeatPassword, errors, submitting} = this.state;
+    const { username, password, repeatPassword, errors, submitting } = this.state;
     return (
       <div className="form-login-container">
         <form className="form-login">
@@ -153,7 +168,7 @@ class LoginForm extends React.Component {
               onBlur={this.handleBlur}
             />
             {errors.username &&
-              <div className="invalid-feedback">{errors.username}</div>}
+            <div className="invalid-feedback">{errors.username}</div>}
           </div>
           <div className="form-group">
             <label htmlFor="password">Пароль</label>
@@ -170,7 +185,7 @@ class LoginForm extends React.Component {
               onBlur={this.handleBlur}
             />
             {errors.password &&
-              <div className="invalid-feedback">{errors.password}</div>}
+            <div className="invalid-feedback">{errors.password}</div>}
           </div>
           <div className="form-group">
             <label htmlFor="repeatPassword">Повторите пароль</label>
@@ -187,7 +202,7 @@ class LoginForm extends React.Component {
               onBlur={this.handleBlur}
             />
             {errors.repeatPassword &&
-              <div className="invalid-feedback">{errors.repeatPassword}</div>}
+            <div className="invalid-feedback">{errors.repeatPassword}</div>}
           </div>
           <button
             type="submit"
@@ -198,7 +213,7 @@ class LoginForm extends React.Component {
             Вход
           </button>
           {errors.base &&
-            <div className="invalid-feedback text-center">{errors.base}</div>}
+          <div className="invalid-feedback text-center">{errors.base}</div>}
         </form>
       </div>
     );
