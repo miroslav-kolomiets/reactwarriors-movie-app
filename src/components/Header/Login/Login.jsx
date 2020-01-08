@@ -11,7 +11,6 @@ export default class Login extends React.Component {
   }
 
   toggleModal = () => {
-    console.log(this.state)
     this.setState (prevState => ({
       showModal: !prevState.showModal,
     }));

@@ -1,12 +1,11 @@
 import React from 'react';
-import CallApi, {API_URL, API_KEY_3, fetchApi} from '../../../api/api';
+import { API_URL, API_KEY_3, fetchApi } from "../../../api/api";
 import { AppContext } from '../../App';
 
 class LoginForm extends React.Component {
   state = {
     username: '',
     password: '',
-    repeatPassword: '',
     errors: {},
     submitting: false,
   };
@@ -43,89 +42,71 @@ class LoginForm extends React.Component {
       errors.password = 'Not empty';
     }
 
-    if (this.state.repeatPassword === '') {
-      errors.repeatPassword = 'Not empty';
-    }
-
-    if (this.state.repeatPassword !== this.state.password) {
-      errors.repeatPassword = 'Mast be equal for password';
-    }
-
     return errors;
   };
 
   onSubmit = () => {
-    this.setState ({
-      submitting: true,
+    this.setState({
+      submitting: true
     });
-    CallApi.get('/authentication/token/new')
-      .then (data => {
-        return CallApi.post('/authentication/token/validate_with_login', {
-          body: {
-            username: this.state.username,
-            password: this.state.password,
-            request_token: data.request_token,
-          },
-        })
-        // return fetchApi (
-        //   `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
-        //   {
-        //     method: 'POST',
-        //     mode: 'cors',
-        //     headers: {
-        //       'Content-type': 'application/json',
-        //     },
-        //     body: JSON.stringify ({
-        //       username: this.state.username,
-        //       password: this.state.password,
-        //       request_token: data.request_token,
-        //     }),
-        //   }
-        // );
-      })
-      .then (data => {
-        return CallApi.post('/authentication/session/new', {
-          body: {
-            request_token: data.request_token,
+    fetchApi(`${API_URL}/authentication/token/new?api_key=${API_KEY_3}`)
+      .then(data => {
+        return fetchApi(
+          `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
+          {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+              username: this.state.username,
+              password: this.state.password,
+              request_token: data.request_token
+            })
           }
-        })
-        // return fetchApi (
-        //   `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
-        //   {
-        //     method: 'POST',
-        //     mode: 'cors',
-        //     headers: {
-        //       'Content-type': 'application/json',
-        //     },
-        //     body: JSON.stringify ({
-        //       request_token: data.request_token,
-        //     }),
-        //   }
-        // );
+        );
       })
-      .then (data => {
-        this.props.updateSessionId (data.session_id);
-        return CallApi.get('/account', {
-          session_id: data.session_id
-        })
-        // return fetchApi (
-        //   `${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`
-        // );
+      .then(data => {
+        return fetchApi(
+          `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
+          {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+              request_token: data.request_token
+            })
+          }
+        );
       })
-      .then (user => {
-        console.log ('session', user);
-        this.props.updateUser (user);
-        this.setState ({
-          submitting: false,
-        });
+      .then(data => {
+        this.props.updateSessionId(data.session_id);
+        return fetchApi(
+          `${API_URL}/account?api_key=${API_KEY_3}&session_id=${
+            data.session_id
+          }`
+        );
       })
-      .catch (error => {
-        console.log ('error', error);
-        this.setState ({
+      .then(user => {
+        this.setState(
+          {
+            submitting: false
+          },
+          () => {
+            this.props.updateUser(user);
+          }
+        );
+      })
+      .catch(error => {
+        console.log("error", error);
+        this.setState({
           submitting: false,
           errors: {
-            base: error.status_message,
-          },
+            base: error.status_message
+          }
         });
       });
   };
@@ -146,7 +127,7 @@ class LoginForm extends React.Component {
   };
 
   render() {
-    const { username, password, repeatPassword, errors, submitting } = this.state;
+    const { username, password, errors, submitting } = this.state;
     return (
       <div className="form-login-container">
         <form className="form-login">
@@ -186,23 +167,6 @@ class LoginForm extends React.Component {
             />
             {errors.password &&
             <div className="invalid-feedback">{errors.password}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="repeatPassword">Повторите пароль</label>
-            <input
-              type="password"
-              className={
-                errors.repeatPassword ? "form-control is-invalid" : "form-control"
-              }
-              id="repeatPassword"
-              placeholder="Повторите пароль"
-              name="repeatPassword"
-              value={repeatPassword}
-              onChange={this.onChange}
-              onBlur={this.handleBlur}
-            />
-            {errors.repeatPassword &&
-            <div className="invalid-feedback">{errors.repeatPassword}</div>}
           </div>
           <button
             type="submit"

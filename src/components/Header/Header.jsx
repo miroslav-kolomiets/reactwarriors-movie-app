@@ -1,5 +1,5 @@
 import React from 'react';
-import User from './User';
+import UserMenu from './UserDropdown';
 import Login from './Login/Login';
 
 class Header extends React.Component {
@@ -14,8 +14,8 @@ class Header extends React.Component {
             </li>
           </ul>
           {user
-            ? <User />
-            : <Login updateSessionId={this.props.updateSessionId}/>}
+            ? <UserMenu />
+            : <Login updateSessionId={this.props.updateSessionId} updateUser={this.props.updateUser}/>}
         </div>
       </nav>
     );
