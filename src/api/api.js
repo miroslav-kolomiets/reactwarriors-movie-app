@@ -18,6 +18,7 @@ export const fetchApi = (url, options = {}) => {
         }
       })
       .then (data => {
+        // console.log(data);
         resolve (data);
       })
       .catch (response => {
