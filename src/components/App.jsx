@@ -8,12 +8,15 @@ import {API_URL, API_KEY_3, fetchApi} from '../api/api';
 const cookies = new Cookies ();
 
 export const AppContext = React.createContext();
+
 export default class App extends React.Component {
   constructor() {
     super ();
 
     this.state = {
       user: null,
+      favoritesMovies: null,
+      watchlistMovies: null,
       session_id: null,
       filters: {
         sort_by: 'popularity.desc',
@@ -35,6 +38,15 @@ export default class App extends React.Component {
     cookies.set ('session_id', session_id, {path: '/', maxAge: 2592000});
     this.setState ({session_id});
   };
+
+  updateFavoritesMovies = favoritesMovies => {
+    this.setState ({favoritesMovies});
+  };
+
+  updateWatchlistMovies = watchlistMovies => {
+    this.setState ({watchlistMovies});
+  };
+
 
   onLogOut = () => {
     cookies.remove('session_id');
@@ -87,15 +99,35 @@ export default class App extends React.Component {
       ).then (user => {
         this.updateUser (user);
         this.updateSessionId(session_id);
-      });
+      }).then( () => {
+          fetchApi (
+            `${API_URL}/account/${this.state.user.id}/favorite/movies?api_key=${API_KEY_3}&session_id=${session_id}`
+          ).then (favoritesMovies => {
+            this.updateFavoritesMovies (favoritesMovies.results);
+            console.log('favoritesMovies');
+            console.log(favoritesMovies.results);
+          })
+        }
+      ).then( () => {
+          fetchApi (
+            `${API_URL}/account/${this.state.user.id}/watchlist/movies?api_key=${API_KEY_3}&session_id=${session_id}`
+          ).then (watchlistMovies => {
+            this.updateWatchlistMovies (watchlistMovies.results);
+            console.log('watchlistMovies');
+            console.log(watchlistMovies.results);
+          })
+        }
+      )
     }
   }
 
   render() {
-    const {filters, pagination, page, total_pages, user, session_id} = this.state;
+    const {filters, pagination, page, total_pages, user, session_id, favoritesMovies, watchlistMovies} = this.state;
     return (
       <AppContext.Provider value={{
         user,
+        favoritesMovies,
+        watchlistMovies,
         session_id,
         updateUser: this.updateUser,
         updateSessionId: this.updateSessionId,
