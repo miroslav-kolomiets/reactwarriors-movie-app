@@ -3,6 +3,8 @@ import {API_URL, API_KEY_3, fetchApi} from '../../api/api';
 import IconButton from '@material-ui/core/IconButton';
 import { Star, StarBorder } from '@material-ui/icons';
 import {AppContext} from "../App";
+import {Modal, ModalBody} from 'reactstrap';
+import LoginForm from '../Header/Login/LoginForm';
 
 class Favorite extends React.Component {
   constructor() {
@@ -10,47 +12,62 @@ class Favorite extends React.Component {
 
     this.state = {
       isFavorite: null,
+      showModal: false,
     }
   }
 
+  toggleModal = () => {
+    this.setState (prevState => ({
+      showModal: !prevState.showModal,
+    }));
+  };
+
   addToFav = (item, session_id) => {
-    // console.log(item);
-    fetchApi(`${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify({
-        media_type: 'movie',
-        media_id: item.id,
-        favorite: true
+    if (session_id) {
+      // console.log(item);
+      fetchApi(`${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          media_type: 'movie',
+          media_id: item.id,
+          favorite: true
+        })
+      }).then(() => {
+        this.setState({
+          isFavorite: true
+        })
       })
-    }).then(() => {
-      this.setState({
-        isFavorite: true
-      })
-    })
+    } else {
+      this.toggleModal();
+    }
   };
 
   removeFromFav = (item, session_id) => {
-    // console.log(item);
-    fetchApi(`${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify({
-        media_type: 'movie',
-        media_id: item.id,
-        favorite: false
+    if (session_id) {
+      // console.log(item);
+      fetchApi(`${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          media_type: 'movie',
+          media_id: item.id,
+          favorite: false
+        })
+      }).then(() => {
+        this.setState({
+          isFavorite: false
+        })
       })
-    }).then(() => {
-      this.setState({
-        isFavorite: false
-      })
-    })
+    } else {
+      this.toggleModal();
+    }
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -75,8 +92,9 @@ class Favorite extends React.Component {
   }
 
   render() {
+    const {item, session_id, user} = this.props;
     const {isFavorite} = this.state;
-    const {item, session_id} = this.props;
+
     if (isFavorite) {
       return (
         <div>
@@ -88,6 +106,17 @@ class Favorite extends React.Component {
     } else {
       return (
         <div>
+          {user
+            ? null
+            : <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+              <ModalBody>
+                <LoginForm
+                  updateUser={this.props.updateUser}
+                  updateSessionId={this.props.updateSessionId}
+                />
+              </ModalBody>
+            </Modal>
+          }
           <IconButton aria-label="" onClick={() => this.addToFav(item, session_id)}>
             <Star />
           </IconButton>
