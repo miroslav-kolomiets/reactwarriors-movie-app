@@ -11,7 +11,7 @@ const MoviesList = ({ movies }) => {
         {movies.length === 0 && <Spinner color="primary" />}
       </div>
       <div className="row">
-        {movies.map (movie => {
+        {movies.map(movie => {
           return (
             <div key={movie.id} className="col-6 mb-4">
               <MovieItem item={movie} />
@@ -20,15 +20,15 @@ const MoviesList = ({ movies }) => {
         })}
       </div>
     </div>
-  )
+  );
 };
 
 MoviesList.defaulProps = {
-  movies: []
+  movies: [],
 };
 
 MoviesList.propTypes = {
-  movies: PropsTypes.array.isRequired
+  movies: PropsTypes.array.isRequired,
 };
 
 export default MoviesHOC(MoviesList);

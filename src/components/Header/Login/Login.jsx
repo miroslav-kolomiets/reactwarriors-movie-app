@@ -1,17 +1,17 @@
 import React from 'react';
-import {Modal, ModalBody} from 'reactstrap';
+import { Modal, ModalBody } from 'reactstrap';
 import LoginForm from './LoginForm';
 
 export default class Login extends React.Component {
   constructor() {
-    super ();
+    super();
     this.state = {
       showModal: false,
     };
   }
 
   toggleModal = () => {
-    this.setState (prevState => ({
+    this.setState(prevState => ({
       showModal: !prevState.showModal,
     }));
   };

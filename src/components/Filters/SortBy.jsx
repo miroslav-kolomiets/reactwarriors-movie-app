@@ -29,7 +29,7 @@ export default class SortBy extends React.Component {
   };
 
   render() {
-    const {sort_by, onChangeFilters, options} = this.props;
+    const { sort_by, onChangeFilters, options } = this.props;
 
     return (
       <div className="form-group">
@@ -41,7 +41,7 @@ export default class SortBy extends React.Component {
           value={sort_by}
           onChange={onChangeFilters}
         >
-          {options.map (option => {
+          {options.map(option => {
             return (
               <option key={option.value} value={option.value}>
                 {option.label}

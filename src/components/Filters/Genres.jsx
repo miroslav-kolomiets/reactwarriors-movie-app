@@ -5,7 +5,7 @@ import GenresHOC from './GenresHOC';
 const Genres = ({ genres, onChangeGenresFilters, with_genres }) => {
   return (
     <div>
-      {genres.map (genre => {
+      {genres.map(genre => {
         return (
           <div className="form-check" key={genre.id}>
             <input
@@ -28,11 +28,11 @@ const Genres = ({ genres, onChangeGenresFilters, with_genres }) => {
 };
 
 Genres.defaultProps = {
-  genres: []
+  genres: [],
 };
 
 Genres.propTypes = {
-  genres: PropTypes.array.isRequired
+  genres: PropTypes.array.isRequired,
 };
 
 export default GenresHOC(Genres);

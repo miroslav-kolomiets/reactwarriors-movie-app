@@ -1,42 +1,44 @@
 import React from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import {AppContext} from "../App";
-import {API_URL, API_KEY_3, fetchApi} from '../../api/api';
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
+import { AppContext } from '../App';
+import { API_URL, API_KEY_3, fetchApi } from '../../api/api';
 
 class UserMenu extends React.Component {
   state = {
-    dropdownOpen: false
+    dropdownOpen: false,
   };
 
   toggleDropdown = () => {
     this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen
+      dropdownOpen: !prevState.dropdownOpen,
     }));
   };
 
   handleLogOut = () => {
     fetchApi(`${API_URL}/authentication/session?api_key=${API_KEY_3}`, {
-      method: "DELETE",
-      mode: "cors",
+      method: 'DELETE',
+      mode: 'cors',
       headers: {
-        "Content-type": "application/json"
+        'Content-type': 'application/json',
       },
       body: JSON.stringify({
-        session_id: this.props.session_id
-      })
+        session_id: this.props.session_id,
+      }),
     }).then(() => {
       this.props.onLogOut();
-    })
+    });
   };
 
   render() {
-    const {user} = this.props;
+    const { user } = this.props;
 
     return (
-      <Dropdown
-        isOpen={this.state.dropdownOpen}
-        toggle={this.toggleDropdown}
-      >
+      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
         <DropdownToggle
           tag="div"
           onClick={this.toggleDropdown}
@@ -49,38 +51,26 @@ class UserMenu extends React.Component {
             src={`https://secure.gravatar.com/avatar/${user.avatar.gravatar.hash}.jpg?s=64"`}
             alt="avatar"
             onClick={this.toggleDropdown}
-          >
-          </img>
+          ></img>
         </DropdownToggle>
-        <DropdownMenu
-          right
-        >
-          <DropdownItem
-            onClick={this.handleLogOut}
-          >
-            Выйти
-          </DropdownItem>
+        <DropdownMenu right>
+          <DropdownItem onClick={this.handleLogOut}>Выйти</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );
   }
 }
 
-const UserMenuContainer = (props) => {
+const UserMenuContainer = props => {
   return (
     <AppContext.Consumer>
-      {(context) => {
-        return (
-          <UserMenu
-            {...context}
-            {...props}
-          />
-        )
+      {context => {
+        return <UserMenu {...context} {...props} />;
       }}
     </AppContext.Consumer>
-  )
+  );
 };
 
-UserMenuContainer.displayName = "UserMenuContainer";
+UserMenuContainer.displayName = 'UserMenuContainer';
 
 export default UserMenuContainer;

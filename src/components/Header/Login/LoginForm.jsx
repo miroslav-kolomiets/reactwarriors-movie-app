@@ -1,5 +1,5 @@
 import React from 'react';
-import { API_URL, API_KEY_3, fetchApi } from "../../../api/api";
+import { API_URL, API_KEY_3, fetchApi } from '../../../api/api';
 import { AppContext } from '../../App';
 
 class LoginForm extends React.Component {
@@ -13,19 +13,19 @@ class LoginForm extends React.Component {
   onChange = e => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState ({
+    this.setState({
       [name]: value,
     });
   };
 
   handleBlur = e => {
-    const errors = this.validateFields ();
+    const errors = this.validateFields();
     const name = e.target.name;
     if (errors[name]) {
-      this.setState (state => ({
+      this.setState(state => ({
         errors: {
           ...state.errors,
-          [name]: errors[name]
+          [name]: errors[name],
         },
       }));
     }
@@ -47,23 +47,23 @@ class LoginForm extends React.Component {
 
   onSubmit = () => {
     this.setState({
-      submitting: true
+      submitting: true,
     });
     fetchApi(`${API_URL}/authentication/token/new?api_key=${API_KEY_3}`)
       .then(data => {
         return fetchApi(
           `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
           {
-            method: "POST",
-            mode: "cors",
+            method: 'POST',
+            mode: 'cors',
             headers: {
-              "Content-type": "application/json"
+              'Content-type': 'application/json',
             },
             body: JSON.stringify({
               username: this.state.username,
               password: this.state.password,
-              request_token: data.request_token
-            })
+              request_token: data.request_token,
+            }),
           }
         );
       })
@@ -71,29 +71,27 @@ class LoginForm extends React.Component {
         return fetchApi(
           `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
           {
-            method: "POST",
-            mode: "cors",
+            method: 'POST',
+            mode: 'cors',
             headers: {
-              "Content-type": "application/json"
+              'Content-type': 'application/json',
             },
             body: JSON.stringify({
-              request_token: data.request_token
-            })
+              request_token: data.request_token,
+            }),
           }
         );
       })
       .then(data => {
         this.props.updateSessionId(data.session_id);
         return fetchApi(
-          `${API_URL}/account?api_key=${API_KEY_3}&session_id=${
-            data.session_id
-          }`
+          `${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`
         );
       })
       .then(user => {
         this.setState(
           {
-            submitting: false
+            submitting: false,
           },
           () => {
             this.props.updateUser(user);
@@ -101,28 +99,28 @@ class LoginForm extends React.Component {
         );
       })
       .catch(error => {
-        console.log("error", error);
+        console.log('error', error);
         this.setState({
           submitting: false,
           errors: {
-            base: error.status_message
-          }
+            base: error.status_message,
+          },
         });
       });
   };
 
   onLogin = e => {
-    e.preventDefault ();
-    const errors = this.validateFields ();
-    if (Object.keys (errors).length > 0) {
-      this.setState (prevState => ({
+    e.preventDefault();
+    const errors = this.validateFields();
+    if (Object.keys(errors).length > 0) {
+      this.setState(prevState => ({
         errors: {
           ...prevState.errors,
           ...errors,
         },
       }));
     } else {
-      this.onSubmit ();
+      this.onSubmit();
     }
   };
 
@@ -139,7 +137,7 @@ class LoginForm extends React.Component {
             <input
               type="text"
               className={
-                errors.username ? "form-control is-invalid" : "form-control"
+                errors.username ? 'form-control is-invalid' : 'form-control'
               }
               id="username"
               placeholder="Пользователь"
@@ -148,15 +146,16 @@ class LoginForm extends React.Component {
               onChange={this.onChange}
               onBlur={this.handleBlur}
             />
-            {errors.username &&
-            <div className="invalid-feedback">{errors.username}</div>}
+            {errors.username && (
+              <div className="invalid-feedback">{errors.username}</div>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="password">Пароль</label>
             <input
               type="password"
               className={
-                errors.password ? "form-control is-invalid" : "form-control"
+                errors.password ? 'form-control is-invalid' : 'form-control'
               }
               id="password"
               placeholder="Пароль"
@@ -165,8 +164,9 @@ class LoginForm extends React.Component {
               onChange={this.onChange}
               onBlur={this.handleBlur}
             />
-            {errors.password &&
-            <div className="invalid-feedback">{errors.password}</div>}
+            {errors.password && (
+              <div className="invalid-feedback">{errors.password}</div>
+            )}
           </div>
           <button
             type="submit"
@@ -176,18 +176,19 @@ class LoginForm extends React.Component {
           >
             Вход
           </button>
-          {errors.base &&
-          <div className="invalid-feedback text-center">{errors.base}</div>}
+          {errors.base && (
+            <div className="invalid-feedback text-center">{errors.base}</div>
+          )}
         </form>
       </div>
     );
   }
 }
 
-export default (props) => {
+export default props => {
   return (
     <AppContext.Consumer>
-      {(context) => <LoginForm updateUser={context.updateUser} {...props}/>}
+      {context => <LoginForm updateUser={context.updateUser} {...props} />}
     </AppContext.Consumer>
-  )
-}
+  );
+};
