@@ -16,8 +16,8 @@ export default class Filters extends React.Component {
 
   render() {
     const {
-      filters: {sort_by, primary_release_year, with_genres},
-      pagination: {page, total_pages},
+      filters: { sort_by, primary_release_year, with_genres },
+      pagination: { page, total_pages },
       onChangePagination,
       resetFilters,
       onChangeFilters,
@@ -25,26 +25,18 @@ export default class Filters extends React.Component {
 
     return (
       <form className="mb-3">
-        <SortBy
-          sort_by={sort_by}
-          onChangeFilters={onChangeFilters}
-        />
+        <SortBy sort_by={sort_by} onChangeFilters={onChangeFilters} />
         <SortByYear
           primary_release_year={primary_release_year}
           onChangeFilters={onChangeFilters}
         />
-        <Genres
-          with_genres={with_genres}
-          onChangeFilters={onChangeFilters}
-        />
+        <Genres with_genres={with_genres} onChangeFilters={onChangeFilters} />
         <Pagination
           onChangePagination={onChangePagination}
           total_pages={total_pages}
           page={page}
         />
-        <ResetFilters
-          resetFilters={resetFilters}
-        />
+        <ResetFilters resetFilters={resetFilters} />
       </form>
     );
   }

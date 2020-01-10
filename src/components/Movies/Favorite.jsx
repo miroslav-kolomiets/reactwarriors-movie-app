@@ -1,9 +1,9 @@
 import React from 'react';
-import {API_URL, API_KEY_3, fetchApi} from '../../api/api';
+import { API_URL, API_KEY_3, fetchApi } from '../../api/api';
 import IconButton from '@material-ui/core/IconButton';
 import { Star, StarBorder } from '@material-ui/icons';
-import {AppContext} from "../App";
-import {Modal, ModalBody} from 'reactstrap';
+import { AppContext } from '../App';
+import { Modal, ModalBody } from 'reactstrap';
 import LoginForm from '../Header/Login/LoginForm';
 
 class Favorite extends React.Component {
@@ -13,11 +13,11 @@ class Favorite extends React.Component {
     this.state = {
       isFavorite: null,
       showModal: false,
-    }
+    };
   }
 
   toggleModal = () => {
-    this.setState (prevState => ({
+    this.setState(prevState => ({
       showModal: !prevState.showModal,
     }));
   };
@@ -25,22 +25,25 @@ class Favorite extends React.Component {
   addToFav = (item, session_id) => {
     if (session_id) {
       // console.log(item);
-      fetchApi(`${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          media_type: 'movie',
-          media_id: item.id,
-          favorite: true
-        })
-      }).then(() => {
+      fetchApi(
+        `${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            media_type: 'movie',
+            media_id: item.id,
+            favorite: true,
+          }),
+        }
+      ).then(() => {
         this.setState({
-          isFavorite: true
-        })
-      })
+          isFavorite: true,
+        });
+      });
     } else {
       this.toggleModal();
     }
@@ -49,22 +52,25 @@ class Favorite extends React.Component {
   removeFromFav = (item, session_id) => {
     if (session_id) {
       // console.log(item);
-      fetchApi(`${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          media_type: 'movie',
-          media_id: item.id,
-          favorite: false
-        })
-      }).then(() => {
+      fetchApi(
+        `${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            media_type: 'movie',
+            media_id: item.id,
+            favorite: false,
+          }),
+        }
+      ).then(() => {
         this.setState({
-          isFavorite: false
-        })
-      })
+          isFavorite: false,
+        });
+      });
     } else {
       this.toggleModal();
     }
@@ -72,7 +78,7 @@ class Favorite extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.favoritesMovies !== prevProps.favoritesMovies) {
-      const {item, favoritesMovies} = this.props;
+      const { item, favoritesMovies } = this.props;
       if (favoritesMovies) {
         let favoritesMoviesIds = favoritesMovies.map(movie => {
           return movie.id;
@@ -80,25 +86,28 @@ class Favorite extends React.Component {
         // console.log(favoritesMoviesIds);
         if (favoritesMoviesIds.includes(item.id)) {
           this.setState({
-            isFavorite: true
-          })
+            isFavorite: true,
+          });
         } else {
           this.setState({
-            isFavorite: false
-          })
+            isFavorite: false,
+          });
         }
       }
     }
   }
 
   render() {
-    const {item, session_id, user} = this.props;
-    const {isFavorite} = this.state;
+    const { item, session_id, user } = this.props;
+    const { isFavorite } = this.state;
 
     if (isFavorite) {
       return (
         <div>
-          <IconButton aria-label="" onClick={() => this.removeFromFav(item, session_id)}>
+          <IconButton
+            aria-label=""
+            onClick={() => this.removeFromFav(item, session_id)}
+          >
             <StarBorder />
           </IconButton>
         </div>
@@ -106,9 +115,8 @@ class Favorite extends React.Component {
     } else {
       return (
         <div>
-          {user
-            ? null
-            : <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+          {user ? null : (
+            <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
               <ModalBody>
                 <LoginForm
                   updateUser={this.props.updateUser}
@@ -116,8 +124,11 @@ class Favorite extends React.Component {
                 />
               </ModalBody>
             </Modal>
-          }
-          <IconButton aria-label="" onClick={() => this.addToFav(item, session_id)}>
+          )}
+          <IconButton
+            aria-label=""
+            onClick={() => this.addToFav(item, session_id)}
+          >
             <Star />
           </IconButton>
         </div>
@@ -126,21 +137,16 @@ class Favorite extends React.Component {
   }
 }
 
-const FavoriteContainer = (props) => {
+const FavoriteContainer = props => {
   return (
     <AppContext.Consumer>
-      {(context) => {
-        return (
-          <Favorite
-            {...context}
-            {...props}
-          />
-        )
+      {context => {
+        return <Favorite {...context} {...props} />;
       }}
     </AppContext.Consumer>
-  )
+  );
 };
 
-FavoriteContainer.displayName = "FavoriteContainer";
+FavoriteContainer.displayName = 'FavoriteContainer';
 
 export default FavoriteContainer;

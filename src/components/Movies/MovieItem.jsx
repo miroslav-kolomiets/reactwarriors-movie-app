@@ -1,15 +1,16 @@
 import React from 'react';
-import {ButtonGroup} from 'reactstrap';
+import { ButtonGroup } from 'reactstrap';
 import Favorite from './Favorite';
 import Watchlist from './Watchlist';
 
-const MovieItem = (props) => {
-  const {item} = props;
+const MovieItem = props => {
+  const { item } = props;
   return (
-    <div className="card" style={{width: '100%'}}>
+    <div className="card" style={{ width: '100%' }}>
       <img
         className="card-img-top card-img--height"
-        src={`https://image.tmdb.org/t/p/w500${item.backdrop_path || item.poster_path}`}
+        src={`https://image.tmdb.org/t/p/w500${item.backdrop_path ||
+          item.poster_path}`}
         alt=""
       />
       <div className="card-body">
@@ -18,8 +19,8 @@ const MovieItem = (props) => {
         <div className="card-text">Релиз: {item.release_date}</div>
       </div>
       <ButtonGroup>
-        <Favorite item={item}/>
-        <Watchlist item={item}/>
+        <Favorite item={item} />
+        <Watchlist item={item} />
       </ButtonGroup>
     </div>
   );
