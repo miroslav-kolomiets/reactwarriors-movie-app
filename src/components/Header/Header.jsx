@@ -15,7 +15,8 @@ class Header extends React.Component {
           </ul>
           {user
             ? <UserMenu />
-            : <Login updateSessionId={this.props.updateSessionId} updateUser={this.props.updateUser}/>}
+            : <Login updateSessionId={this.props.updateSessionId} updateUser={this.props.updateUser}/>
+          }
         </div>
       </nav>
     );
