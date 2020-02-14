@@ -1,5 +1,5 @@
 import React from 'react';
-import { API_URL, API_KEY_3, fetchApi } from '../../../api/api';
+import CallApi from '../../../api/api';
 import { AppContext } from '../../App';
 
 class LoginForm extends React.Component {
@@ -49,43 +49,36 @@ class LoginForm extends React.Component {
     this.setState({
       submitting: true,
     });
-    fetchApi(`${API_URL}/authentication/token/new?api_key=${API_KEY_3}`)
+
+    CallApi.get(`/authentication/token/new`)
       .then(data => {
-        return fetchApi(
-          `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`,
-          {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            body: JSON.stringify({
+        return CallApi.post(
+          `/authentication/token/validate_with_login`, {
+            params: {
               username: this.state.username,
               password: this.state.password,
               request_token: data.request_token,
-            }),
+            }
           }
         );
       })
       .then(data => {
-        return fetchApi(
-          `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`,
-          {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            body: JSON.stringify({
+        return CallApi.post(
+          `/authentication/session/new`, {
+            params: {
               request_token: data.request_token,
-            }),
+            }
           }
         );
       })
       .then(data => {
         this.props.updateSessionId(data.session_id);
-        return fetchApi(
-          `${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`
+        return CallApi.get(
+          `/account`, {
+            params: {
+              session_id: data.session_id,
+            }
+          }
         );
       })
       .then(user => {

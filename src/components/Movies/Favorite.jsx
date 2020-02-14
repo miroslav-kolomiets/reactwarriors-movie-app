@@ -1,10 +1,8 @@
 import React from 'react';
-import { API_URL, API_KEY_3, fetchApi } from '../../api/api';
+import CallApi from '../../api/api';
 import IconButton from '@material-ui/core/IconButton';
-import { Star, StarBorder } from '@material-ui/icons';
-import { AppContext } from '../App';
-import { Modal, ModalBody } from 'reactstrap';
-import LoginForm from '../Header/Login/LoginForm';
+import {Star, StarBorder} from '@material-ui/icons';
+import AppContextHOC from '../HOC/AppContextHOC';
 
 class Favorite extends React.Component {
   constructor() {
@@ -12,79 +10,40 @@ class Favorite extends React.Component {
 
     this.state = {
       isFavorite: null,
-      showModal: false,
     };
   }
 
-  toggleModal = () => {
-    this.setState(prevState => ({
-      showModal: !prevState.showModal,
-    }));
-  };
-
-  addToFav = (item, session_id) => {
+  toggleFavorite = (id, session_id, isFavorite) => {
     if (session_id) {
-      // console.log(item);
-      fetchApi(
-        `${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`,
-        {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-type': 'application/json',
+      CallApi.post(
+        `/account/${this.props.user.id}/favorite`, {
+          params: {
+            session_id: session_id
           },
-          body: JSON.stringify({
+          body: {
             media_type: 'movie',
-            media_id: item.id,
-            favorite: true,
-          }),
+            media_id: id,
+            favorite: isFavorite,
+          }
         }
       ).then(() => {
         this.setState({
-          isFavorite: true,
+          isFavorite,
         });
       });
     } else {
-      this.toggleModal();
-    }
-  };
-
-  removeFromFav = (item, session_id) => {
-    if (session_id) {
-      // console.log(item);
-      fetchApi(
-        `${API_URL}/account/7933447/favorite?api_key=${API_KEY_3}&session_id=${session_id}`,
-        {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({
-            media_type: 'movie',
-            media_id: item.id,
-            favorite: false,
-          }),
-        }
-      ).then(() => {
-        this.setState({
-          isFavorite: false,
-        });
-      });
-    } else {
-      this.toggleModal();
+      this.props.toggleModal();
     }
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.favoritesMovies !== prevProps.favoritesMovies) {
-      const { item, favoritesMovies } = this.props;
+      const {id, favoritesMovies} = this.props;
       if (favoritesMovies) {
         let favoritesMoviesIds = favoritesMovies.map(movie => {
           return movie.id;
         });
-        // console.log(favoritesMoviesIds);
-        if (favoritesMoviesIds.includes(item.id)) {
+        if (favoritesMoviesIds.includes(id)) {
           this.setState({
             isFavorite: true,
           });
@@ -98,55 +57,31 @@ class Favorite extends React.Component {
   }
 
   render() {
-    const { item, session_id, user } = this.props;
-    const { isFavorite } = this.state;
+    const {id, session_id} = this.props;
+    const {isFavorite} = this.state;
 
     if (isFavorite) {
       return (
         <div>
           <IconButton
             aria-label=""
-            onClick={() => this.removeFromFav(item, session_id)}
+            onClick={() => this.toggleFavorite(id, session_id, false)}
           >
-            <StarBorder />
+            <StarBorder/>
           </IconButton>
         </div>
       );
     } else {
       return (
-        <div>
-          {user ? null : (
-            <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
-              <ModalBody>
-                <LoginForm
-                  updateUser={this.props.updateUser}
-                  updateSessionId={this.props.updateSessionId}
-                />
-              </ModalBody>
-            </Modal>
-          )}
-          <IconButton
-            aria-label=""
-            onClick={() => this.addToFav(item, session_id)}
-          >
-            <Star />
-          </IconButton>
-        </div>
+        <IconButton
+          aria-label=""
+          onClick={() => this.toggleFavorite(id, session_id, true)}
+        >
+          <Star/>
+        </IconButton>
       );
     }
   }
 }
 
-const FavoriteContainer = props => {
-  return (
-    <AppContext.Consumer>
-      {context => {
-        return <Favorite {...context} {...props} />;
-      }}
-    </AppContext.Consumer>
-  );
-};
-
-FavoriteContainer.displayName = 'FavoriteContainer';
-
-export default FavoriteContainer;
+export default AppContextHOC(Favorite);
