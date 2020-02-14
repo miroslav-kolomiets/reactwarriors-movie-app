@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import queryString from 'query-string';
 import MoviesList from './MoviesList';
-import CallApi from '../../api/api';
+import { API_URL, API_KEY_3 } from '../../api/api';
 
 export default class MovieList extends Component {
   constructor() {
@@ -15,16 +16,18 @@ export default class MovieList extends Component {
   getMovies = (filters, pagination) => {
     const { sort_by, primary_release_year, with_genres } = filters;
     const { page } = pagination;
+    const queryStringParams = {
+      api_key: API_KEY_3,
+      sort_by: sort_by,
+      page: page,
+      primary_release_year: primary_release_year,
+      with_genres: with_genres,
+      language: 'ru-RU',
+    };
+    const paramsString = queryString.stringify(queryStringParams);
+    const link = `${API_URL}/discover/movie?${paramsString}`;
 
-    CallApi.get(`/discover/movie`, {
-      params: {
-        sort_by: sort_by,
-        page: page,
-        primary_release_year: primary_release_year,
-        with_genres: with_genres,
-        language: 'ru-RU',
-      }
-    })
+    fetch(link)
       .then(response => response.json())
       .then(data => {
         this.setState({

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import CallApi from '../../api/api';
+import queryString from 'query-string';
+import CallApi, { API_URL, API_KEY_3 } from '../../api/api';
 
 export default Component =>
   class MoviesHOC extends React.Component {
@@ -16,6 +17,7 @@ export default Component =>
       const { sort_by, primary_release_year, with_genres } = filters;
       const { page } = pagination;
       const queryStringParams = {
+        api_key: API_KEY_3,
         sort_by: sort_by,
         page: page,
         primary_release_year: primary_release_year,
@@ -53,6 +55,6 @@ export default Component =>
 
     render() {
       const { movies } = this.state;
-      return <Component {...this.props} movies={movies} />;
+      return <Component movies={movies} />;
     }
   };

@@ -18,6 +18,7 @@ export const fetchApi = (url, options = {}) => {
         }
       })
       .then(data => {
+        // console.log(data);
         resolve(data);
       })
       .catch(response => {
@@ -30,59 +31,39 @@ export const fetchApi = (url, options = {}) => {
 
 export default class CallApi {
   static get(url, options = {}) {
-    const {params = {}} = options;
+    const { params = {} } = options;
     const queryStringParams = {
       api_key: API_KEY_3,
-      ...params
+      ...params,
     };
 
     return fetchApi(
       `${API_URL}${url}?${queryString.stringify(queryStringParams)}`,
       {
-        mode: "cors",
+        mode: 'cors',
         headers: {
-          "Content-type": "application/json"
-        }
+          'Content-type': 'application/json',
+        },
       }
     );
   }
 
   static post(url, options = {}) {
-    const {params = {}, body = {}} = options;
+    const { params = {}, body = {} } = options;
     const queryStringParams = {
       api_key: API_KEY_3,
-      ...params
+      ...params,
     };
 
     return fetchApi(
       `${API_URL}${url}?${queryString.stringify(queryStringParams)}`,
       {
-        method: "POST",
-        mode: "cors",
+        method: 'POST',
+        mode: 'cors',
         headers: {
-          "Content-type": "application/json"
+          'Content-type': 'application/json',
         },
-        body: JSON.stringify(body)
-      }
-    );
-  }
-
-  static delete(url, options = {}) {
-    const {params = {}, body = {}} = options;
-    const queryStringParams = {
-      api_key: API_KEY_3,
-      ...params
-    };
-
-    return fetchApi(
-      `${API_URL}${url}?${queryString.stringify(queryStringParams)}`,
-      {
-        method: "DELETE",
-        mode: "cors",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       }
     );
   }
