@@ -4,7 +4,7 @@ import Filters from './Filters/Filters';
 import MoviesList from './Movies/MoviesList';
 import Cookies from 'universal-cookie';
 import CallApi from '../api/api';
-import LoginModal from './Header/Login/Modal';
+import LoginModal from './Login/LoginModal';
 
 const cookies = new Cookies();
 
@@ -165,17 +165,14 @@ export default class App extends React.Component {
           updateUser: this.updateUser,
           updateSessionId: this.updateSessionId,
           onLogOut: this.onLogOut,
+          getFavoritesMovies: this.getFavoritesMovies,
+          getWatchlistMovies: this.getWatchlistMovies,
         }}
       >
         <div>
-          {this.state.user ? null : (
-            <LoginModal isOpen={this.state.showModal} toggle={this.toggleModal} />
-          )}
-          <Header
-            updateUser={this.updateUser}
-            updateSessionId={this.updateSessionId}
-            user={user}
-          />
+          {this.state.showModal && (
+            <LoginModal isOpen={this.state.showModal} toggle={this.toggleModal}/>)}
+          <Header />
           <div className="container">
             <div className="row mt-4">
               <div className="col-4">

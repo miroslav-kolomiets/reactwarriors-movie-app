@@ -9,12 +9,15 @@ class Watchlist extends React.Component {
     super();
 
     this.state = {
-      isInWatchlist: null,
+      isLoading: null,
     };
   }
 
-  toggleWatchlist = (id, session_id, isInWatchlist) => {
+  toggleWatchlist = (id, session_id) => {
     if (session_id) {
+      this.setState({
+        isLoading: true,
+      });
       CallApi.post(
         `/account/${this.props.user.id}/watchlist`, {
           params: {
@@ -23,12 +26,14 @@ class Watchlist extends React.Component {
           body: {
             media_type: 'movie',
             media_id: id,
-            watchlist: isInWatchlist,
+            watchlist: !this.isInWatchlist(),
           }
         }
       ).then(() => {
+        this.props.getWatchlistMovies(session_id);
+      }).then(() => {
         this.setState({
-          isInWatchlist,
+          isLoading: false,
         });
       });
     } else {
@@ -36,36 +41,22 @@ class Watchlist extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!(this.props.watchlistMovies === prevProps.watchlistMovies)) {
-      const {id, watchlistMovies} = this.props;
-      if (watchlistMovies) {
-        let watchlistMoviesIds = watchlistMovies.map(movie => {
-          return movie.id;
-        });
-        if (watchlistMoviesIds.includes(id)) {
-          this.setState({
-            isInWatchlist: true,
-          });
-        } else {
-          this.setState({
-            isInWatchlist: false,
-          });
-        }
-      }
-    }
-  }
+  isInWatchlist = () => {
+    return this.props.watchlistMovies ? this.props.watchlistMovies.findIndex(
+      movie => movie.id === this.props.id
+    ) !== -1 : false;
+  };
 
   render() {
     const {id, session_id} = this.props;
-    const {isInWatchlist} = this.state;
+    const {isLoading} = this.state;
 
-    if (isInWatchlist) {
+    if (this.isInWatchlist()) {
       return (
         <div>
           <IconButton
-            aria-label=""
-            onClick={() => this.toggleWatchlist(id, session_id, false)}
+            style={isLoading ? { 'pointer-events': 'none' } : {'pointer-events': 'auto'}}
+            onClick={() => this.toggleWatchlist(id, session_id)}
           >
             <BookmarkBorder/>
           </IconButton>
@@ -74,8 +65,8 @@ class Watchlist extends React.Component {
     } else {
       return (
         <IconButton
-          aria-label=""
-          onClick={() => this.toggleWatchlist(id, session_id, true)}
+          style={isLoading ? { 'pointer-events': 'none' } : {'pointer-events': 'auto'}}
+          onClick={() => this.toggleWatchlist(id, session_id)}
         >
           <Bookmark/>
         </IconButton>

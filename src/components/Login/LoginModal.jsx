@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal, ModalBody} from 'reactstrap';
 import LoginForm from './LoginForm';
-import AppContextHOC from '../../HOC/AppContextHOC';
+import AppContextHOC from '../HOC/AppContextHOC';
 
 class LoginModal extends React.Component {
 

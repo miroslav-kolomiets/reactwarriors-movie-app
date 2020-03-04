@@ -46,7 +46,7 @@ class UserMenu extends React.Component {
             src={`https://secure.gravatar.com/avatar/${user.avatar.gravatar.hash}.jpg?s=64"`}
             alt="avatar"
             onClick={this.toggleDropdown}
-          ></img>
+          />
         </DropdownToggle>
         <DropdownMenu right>
           <DropdownItem onClick={this.handleLogOut}>Выйти</DropdownItem>

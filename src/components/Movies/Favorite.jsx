@@ -9,12 +9,15 @@ class Favorite extends React.Component {
     super();
 
     this.state = {
-      isFavorite: null,
+      isLoading: null,
     };
   }
 
-  toggleFavorite = (id, session_id, isFavorite) => {
+  toggleFavorite = (id, session_id) => {
     if (session_id) {
+      this.setState({
+        isLoading: true,
+      });
       CallApi.post(
         `/account/${this.props.user.id}/favorite`, {
           params: {
@@ -23,12 +26,14 @@ class Favorite extends React.Component {
           body: {
             media_type: 'movie',
             media_id: id,
-            favorite: isFavorite,
+            favorite: !this.isFavorite(),
           }
         }
       ).then(() => {
+        this.props.getFavoritesMovies(session_id);
+      }).then(() => {
         this.setState({
-          isFavorite,
+          isLoading: false,
         });
       });
     } else {
@@ -36,36 +41,22 @@ class Favorite extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.favoritesMovies !== prevProps.favoritesMovies) {
-      const {id, favoritesMovies} = this.props;
-      if (favoritesMovies) {
-        let favoritesMoviesIds = favoritesMovies.map(movie => {
-          return movie.id;
-        });
-        if (favoritesMoviesIds.includes(id)) {
-          this.setState({
-            isFavorite: true,
-          });
-        } else {
-          this.setState({
-            isFavorite: false,
-          });
-        }
-      }
-    }
-  }
+  isFavorite = () => {
+    return this.props.favoritesMovies ? this.props.favoritesMovies.findIndex(
+      movie => movie.id === this.props.id
+    ) !== -1 : false;
+  };
 
   render() {
     const {id, session_id} = this.props;
-    const {isFavorite} = this.state;
+    const {isLoading} = this.state;
 
-    if (isFavorite) {
+    if (this.isFavorite()) {
       return (
         <div>
           <IconButton
-            aria-label=""
-            onClick={() => this.toggleFavorite(id, session_id, false)}
+            style={isLoading ? { 'pointer-events': 'none' } : {'pointer-events': 'auto'}}
+            onClick={() => this.toggleFavorite(id, session_id)}
           >
             <StarBorder/>
           </IconButton>
@@ -74,8 +65,8 @@ class Favorite extends React.Component {
     } else {
       return (
         <IconButton
-          aria-label=""
-          onClick={() => this.toggleFavorite(id, session_id, true)}
+          style={isLoading ? { 'pointer-events': 'none' } : {'pointer-events': 'auto'}}
+          onClick={() => this.toggleFavorite(id, session_id)}
         >
           <Star/>
         </IconButton>
