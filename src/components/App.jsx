@@ -3,7 +3,8 @@ import Header from './Header/Header';
 import Filters from './Filters/Filters';
 import MoviesList from './Movies/MoviesList';
 import Cookies from 'universal-cookie';
-import { API_URL, API_KEY_3, fetchApi } from '../api/api';
+import CallApi from '../api/api';
+import LoginModal from './Login/LoginModal';
 
 const cookies = new Cookies();
 
@@ -18,6 +19,7 @@ export default class App extends React.Component {
       favoritesMovies: null,
       watchlistMovies: null,
       session_id: null,
+      showModal: false,
       filters: {
         sort_by: 'popularity.desc',
         primary_release_year: '',
@@ -30,21 +32,27 @@ export default class App extends React.Component {
     };
   }
 
+  toggleModal = () => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+    }));
+  };
+
   updateUser = user => {
-    this.setState({ user });
+    this.setState({user});
   };
 
   updateSessionId = session_id => {
-    cookies.set('session_id', session_id, { path: '/', maxAge: 2592000 });
-    this.setState({ session_id });
+    cookies.set('session_id', session_id, {path: '/', maxAge: 2592000});
+    this.setState({session_id});
   };
 
   updateFavoritesMovies = favoritesMovies => {
-    this.setState({ favoritesMovies });
+    this.setState({favoritesMovies});
   };
 
   updateWatchlistMovies = watchlistMovies => {
-    this.setState({ watchlistMovies });
+    this.setState({watchlistMovies});
   };
 
   onLogOut = () => {
@@ -81,7 +89,7 @@ export default class App extends React.Component {
     }));
   };
 
-  onChangePagination = ({ name, value }) => {
+  onChangePagination = ({name, value}) => {
     this.setState(prevState => ({
       pagination: {
         ...prevState.pagination,
@@ -90,33 +98,45 @@ export default class App extends React.Component {
     }));
   };
 
+  getFavoritesMovies = session_id => {
+    CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
+      params: {
+        session_id: session_id
+      }
+    }).then(favoritesMovies => {
+      this.updateFavoritesMovies(favoritesMovies.results);
+    })
+  };
+
+  getWatchlistMovies = session_id => {
+    CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
+      params: {
+        session_id: session_id
+      }
+    }).then(watchlistMovies => {
+      this.updateWatchlistMovies(watchlistMovies.results);
+    })
+  };
+
   componentDidMount() {
     const session_id = cookies.get('session_id');
     if (session_id) {
-      fetchApi(
-        `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session_id}`
+      CallApi.get(
+        `/account`, {
+          params: {
+            session_id: session_id,
+          }
+        }
       )
         .then(user => {
           this.updateUser(user);
           this.updateSessionId(session_id);
         })
         .then(() => {
-          fetchApi(
-            `${API_URL}/account/${this.state.user.id}/favorite/movies?api_key=${API_KEY_3}&session_id=${session_id}`
-          ).then(favoritesMovies => {
-            this.updateFavoritesMovies(favoritesMovies.results);
-            console.log('favoritesMovies');
-            console.log(favoritesMovies.results);
-          });
+          this.getFavoritesMovies(session_id);
         })
         .then(() => {
-          fetchApi(
-            `${API_URL}/account/${this.state.user.id}/watchlist/movies?api_key=${API_KEY_3}&session_id=${session_id}`
-          ).then(watchlistMovies => {
-            this.updateWatchlistMovies(watchlistMovies.results);
-            console.log('watchlistMovies');
-            console.log(watchlistMovies.results);
-          });
+          this.getWatchlistMovies(session_id);
         });
     }
   }
@@ -129,6 +149,7 @@ export default class App extends React.Component {
       total_pages,
       user,
       session_id,
+      showModal,
       favoritesMovies,
       watchlistMovies,
     } = this.state;
@@ -139,21 +160,23 @@ export default class App extends React.Component {
           favoritesMovies,
           watchlistMovies,
           session_id,
+          showModal,
+          toggleModal: this.toggleModal,
           updateUser: this.updateUser,
           updateSessionId: this.updateSessionId,
           onLogOut: this.onLogOut,
+          getFavoritesMovies: this.getFavoritesMovies,
+          getWatchlistMovies: this.getWatchlistMovies,
         }}
       >
         <div>
-          <Header
-            updateUser={this.updateUser}
-            updateSessionId={this.updateSessionId}
-            user={user}
-          />
+          {this.state.showModal && (
+            <LoginModal isOpen={this.state.showModal} toggle={this.toggleModal}/>)}
+          <Header />
           <div className="container">
             <div className="row mt-4">
               <div className="col-4">
-                <div className="card" style={{ width: '100%' }}>
+                <div className="card">
                   <div className="card-body">
                     <h3>Фильтры:</h3>
                     <Filters

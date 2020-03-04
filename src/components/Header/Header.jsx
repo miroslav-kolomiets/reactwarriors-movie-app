@@ -1,6 +1,6 @@
 import React from 'react';
 import UserMenu from './UserDropdown';
-import Login from './Login/Login';
+import AppContextHOC from '../HOC/AppContextHOC';
 
 class Header extends React.Component {
   render() {
@@ -18,10 +18,15 @@ class Header extends React.Component {
           {user ? (
             <UserMenu />
           ) : (
-            <Login
-              updateSessionId={this.props.updateSessionId}
-              updateUser={this.props.updateUser}
-            />
+            <div>
+              <button
+                className="btn btn-success"
+                type="button"
+                onClick={this.props.toggleModal}
+              >
+                Login
+              </button>
+            </div>
           )}
         </div>
       </nav>
@@ -29,4 +34,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default AppContextHOC(Header);
