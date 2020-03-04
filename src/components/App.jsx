@@ -132,10 +132,8 @@ export default class App extends React.Component {
             {this.state.showModal && (
               <LoginModal isOpen={this.state.showModal} toggle={this.toggleModal}/>)}
             <Header />
-            <Link to="/">Home</Link>
-            <Link to="/movie">Movie</Link>
             <Route path="/" exact component={MoviesPages} />
-            <Route path="/movie" component={MoviePages} />
+            <Route path="/movie/:id" component={MoviePages} />
           </div>
         </AppContext.Provider>
       </Router>

@@ -1,10 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {ButtonGroup} from 'reactstrap';
 import Favorite from './Favorite';
 import Watchlist from './Watchlist';
 
 const MovieItem = props => {
   const {item} = props;
+  console.log(item.id)
   return (
     <div className="card">
       <img
@@ -13,7 +15,7 @@ const MovieItem = props => {
         alt=""
       />
       <div className="card-body">
-        <h6 className="card-title">{item.title}</h6>
+        <Link className="card-title" to={`/movie/${item.id}`}>{item.title}</Link>
         <div className="card-text">Рейтинг: {item.vote_average}</div>
         <div className="card-text">Релиз: {item.release_date}</div>
       </div>

@@ -1,7 +1,13 @@
 import React from 'react';
+import CallApi from '../../../api/api';
 
-const MoviePage = () => {
-  return <div>Movie Page</div>
+export default class MoviePage extends React.Component {
+  componentDidMount() {
+    CallApi.get(`/movie/${this.props.match.params.id}`)
+  }
+
+  render() {
+    console.log(this.props);
+    return <div>Movie Page</div>;
+  }
 };
-
-export default MoviePage;
