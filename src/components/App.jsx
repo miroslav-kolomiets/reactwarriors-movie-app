@@ -4,9 +4,7 @@ import MoviesPages from './pages/MoviesPage/MoviesPage';
 import MoviePages from './pages/MoviePage/MoviePage';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
-  Link
 } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import CallApi from '../api/api';
