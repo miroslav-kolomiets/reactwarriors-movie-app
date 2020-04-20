@@ -6,7 +6,6 @@ import Watchlist from './Watchlist';
 
 const MovieItem = props => {
   const {item} = props;
-  console.log(item.id)
   return (
     <div className="card">
       <img
