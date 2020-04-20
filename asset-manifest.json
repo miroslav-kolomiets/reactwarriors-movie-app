@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/reactwarriors-movie-app/static/css/main.7d545208.chunk.css",
-    "main.js": "/reactwarriors-movie-app/static/js/main.9cfdf4ff.chunk.js",
-    "main.js.map": "/reactwarriors-movie-app/static/js/main.9cfdf4ff.chunk.js.map",
+    "main.css": "/reactwarriors-movie-app/static/css/main.a121d615.chunk.css",
+    "main.js": "/reactwarriors-movie-app/static/js/main.1f373363.chunk.js",
+    "main.js.map": "/reactwarriors-movie-app/static/js/main.1f373363.chunk.js.map",
     "runtime-main.js": "/reactwarriors-movie-app/static/js/runtime-main.7c99dafd.js",
     "runtime-main.js.map": "/reactwarriors-movie-app/static/js/runtime-main.7c99dafd.js.map",
     "static/css/2.47e06e2e.chunk.css": "/reactwarriors-movie-app/static/css/2.47e06e2e.chunk.css",
-    "static/js/2.ba7bcf76.chunk.js": "/reactwarriors-movie-app/static/js/2.ba7bcf76.chunk.js",
-    "static/js/2.ba7bcf76.chunk.js.map": "/reactwarriors-movie-app/static/js/2.ba7bcf76.chunk.js.map",
+    "static/js/2.28dd126c.chunk.js": "/reactwarriors-movie-app/static/js/2.28dd126c.chunk.js",
+    "static/js/2.28dd126c.chunk.js.map": "/reactwarriors-movie-app/static/js/2.28dd126c.chunk.js.map",
     "index.html": "/reactwarriors-movie-app/index.html",
-    "precache-manifest.60784d3ff4813ca3b76ac7ae0646773f.js": "/reactwarriors-movie-app/precache-manifest.60784d3ff4813ca3b76ac7ae0646773f.js",
+    "precache-manifest.2bdaca2b1fda6939188e5d4db1272c9e.js": "/reactwarriors-movie-app/precache-manifest.2bdaca2b1fda6939188e5d4db1272c9e.js",
     "service-worker.js": "/reactwarriors-movie-app/service-worker.js",
     "static/css/2.47e06e2e.chunk.css.map": "/reactwarriors-movie-app/static/css/2.47e06e2e.chunk.css.map",
-    "static/css/main.7d545208.chunk.css.map": "/reactwarriors-movie-app/static/css/main.7d545208.chunk.css.map",
-    "static/js/2.ba7bcf76.chunk.js.LICENSE": "/reactwarriors-movie-app/static/js/2.ba7bcf76.chunk.js.LICENSE"
+    "static/css/main.a121d615.chunk.css.map": "/reactwarriors-movie-app/static/css/main.a121d615.chunk.css.map",
+    "static/js/2.28dd126c.chunk.js.LICENSE": "/reactwarriors-movie-app/static/js/2.28dd126c.chunk.js.LICENSE"
   },
   "entrypoints": [
     "static/js/runtime-main.7c99dafd.js",
     "static/css/2.47e06e2e.chunk.css",
-    "static/js/2.ba7bcf76.chunk.js",
-    "static/css/main.7d545208.chunk.css",
-    "static/js/main.9cfdf4ff.chunk.js"
+    "static/js/2.28dd126c.chunk.js",
+    "static/css/main.a121d615.chunk.css",
+    "static/js/main.1f373363.chunk.js"
   ]
 }
