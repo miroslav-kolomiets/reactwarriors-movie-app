@@ -44,9 +44,18 @@ export default class MoviePage extends React.Component {
         </Nav>
         <TabContent activeTab={1}>
           <Switch>
-            <Route path={`${path}/details`} component={MovieDetail}/>
-            <Route path={`${path}/videos`} component={MovieVideos}/>
-            <Route path={`${path}/credits`} component={MovieCredits}/>
+            <Route
+              path={`${path}/details`}
+              render={(props) => <MovieDetail movie={this.state.data} {...props} isActive={true} />}
+            />
+            <Route
+              path={`${path}/videos/`}
+              render={(props) => <MovieVideos id={this.props.match.params.id} {...props} isActive={true} />}
+            />
+            <Route
+              path={`${path}/credits`}
+              render={(props) => <MovieCredits id={this.props.match.params.id} {...props} isActive={true} />}
+            />
           </Switch>
         </TabContent>
       </div>
